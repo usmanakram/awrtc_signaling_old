@@ -12,6 +12,16 @@ var WebsocketNetworkServer = (function () {
         //it would be possible to enforce the client to send a certain introduction first
         //to determine to which pool we add it -> for now only one pool is supported
         this.mPool[appname].add(socket);
+
+        // START
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log('');
+        console.log(Object.keys(this.mPool));
+        console.log(`AppName: ${appname}, Connections Count: ${this.mPool[appname].count()}`);
+        // END
     };
     //
     WebsocketNetworkServer.prototype.addSocketServer = function (websocketServer, appConfig) {
@@ -50,7 +60,7 @@ var PeerPool = (function () {
     PeerPool.prototype.getServerConnection = function (address) {
         return this.mServers[address];
     };
-    //Tests if the address is available for use. 
+    //Tests if the address is available for use.
     //returns true in the following cases
     //the address is longer than the maxAddressLength and the server the address is not yet in use or address sharing is active
     PeerPool.prototype.isAddressAvailable = function (address) {
@@ -227,7 +237,7 @@ var SignalingPeer = (function () {
             if (this.mConnections.hasOwnProperty(v))
                 this.disconnect(new inet.ConnectionId(+v));
         }
-        //make sure the server address is freed 
+        //make sure the server address is freed
         if (this.mServerAddress != null) {
             this.stopServer();
         }
@@ -278,7 +288,7 @@ var SignalingPeer = (function () {
         this.sendToClient(new inet.NetworkEvent(inet.NetEventType.NewConnection, id, null));
     };
     SignalingPeer.prototype.internalAddOutgoingPeer = function (peer, id) {
-        //this peer successfully connected to another peer. id was generated on the 
+        //this peer successfully connected to another peer. id was generated on the
         //client side
         this.mConnections[id.id] = peer;
         //event to this (the other peer gets the event via addOutgoing
